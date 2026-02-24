@@ -1,8 +1,8 @@
 {
-  "version": "5.й",
-  "url": "https://github.com/adweyn/svitlo/blob/main/app-debug.apk",
-  "notes": "Ь",
+  "version": "5.1",
+  "url": "https://github.com/adweyn/svitlo/blob/main/svitlo.apk",
+  "notes": "Привіт",
   "minVersion": "4.0",
   "mandatory": false,
-  "publishedAt": "2026-02-24T18:43:27.916Z"
+  "publishedAt": "2026-02-24T18:50:46.893Z"
 }

@@ -1,7 +1,8 @@
 {
-  "version": "5.0",
-  "url": "https://adweyn.github.io/svitlo/app-debug.apk",
-  "notes": "Новий дизайн v5.0 — чистий мінімалістичний інтерфейс",
+  "version": "5.й",
+  "url": "https://github.com/adweyn/svitlo/blob/main/app-debug.apk",
+  "notes": "Ь",
   "minVersion": "4.0",
-  "mandatory": false
+  "mandatory": false,
+  "publishedAt": "2026-02-24T18:43:27.916Z"
 }

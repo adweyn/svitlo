@@ -1,1 +1,1945 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Світло UA">
+<meta name="theme-color" content="#ffffff" id="metaTheme">
+<title>⚡ Світло UA</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════
+   SVITLO UA v5.0 — Mono/Diia style redesign
+   ══════════════════════════════════════════════ */
+
+:root {
+  --bg: #f2f3f7;
+  --bg2: #e8eaf0;
+  --surface: #ffffff;
+  --surface2: #f7f8fc;
+  --border: rgba(0,0,0,.07);
+  --border2: rgba(0,0,0,.12);
+  --text: #111114;
+  --text2: #8a8fa8;
+  --text3: #b8bcc8;
+
+  --green: #25c05a;
+  --green-bg: #edfaf3;
+  --green-text: #1a9944;
+  --red: #f53d3d;
+  --red-bg: #fff0f0;
+  --red-text: #c41c1c;
+  --yellow: #f5a623;
+  --yellow-bg: #fff8ed;
+  --yellow-text: #b87413;
+  --blue: #1d6fe8;
+
+  --nav: rgba(255,255,255,.92);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 22px;
+  --r-xl: 28px;
+}
+
+[data-theme="dark"] {
+  --bg: #0e0e12;
+  --bg2: #17171e;
+  --surface: #1c1c24;
+  --surface2: #252530;
+  --border: rgba(255,255,255,.06);
+  --border2: rgba(255,255,255,.12);
+  --text: #f0f0f5;
+  --text2: #6b6f85;
+  --text3: #3d4055;
+
+  --green: #25d46a;
+  --green-bg: rgba(37,208,106,.1);
+  --green-text: #25d46a;
+  --red: #ff4444;
+  --red-bg: rgba(255,68,68,.1);
+  --red-text: #ff4444;
+  --yellow: #f5a623;
+  --yellow-bg: rgba(245,166,35,.1);
+  --yellow-text: #f5a623;
+
+  --nav: rgba(14,14,18,.92);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.5);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background .25s, color .25s;
+}
+::-webkit-scrollbar { width: 0; height: 0; }
+
+/* ══ SPLASH ══════════════════════════════════ */
+#splash {
+  position: fixed; inset: 0; background: var(--bg);
+  z-index: 9999; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0;
+  transition: opacity .4s ease, transform .4s ease;
+}
+#splash.out { opacity: 0; transform: scale(1.03); pointer-events: none; }
+.spl-icon {
+  width: 76px; height: 76px; border-radius: 22px;
+  background: var(--text); display: flex; align-items: center;
+  justify-content: center; margin-bottom: 20px;
+  animation: splPulse 2s ease-in-out infinite;
+}
+.spl-icon svg { width: 36px; height: 36px; fill: var(--bg); }
+@keyframes splPulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+.spl-title {
+  font-size: 26px; font-weight: 800; letter-spacing: -.5px;
+  color: var(--text); margin-bottom: 6px;
+}
+.spl-sub { font-size: 13px; color: var(--text2); margin-bottom: 32px; }
+.spl-progress {
+  width: 160px; height: 3px; background: var(--border2);
+  border-radius: 99px; overflow: hidden;
+}
+.spl-bar {
+  height: 100%; width: 0; background: var(--text);
+  border-radius: 99px; transition: width .5s ease;
+}
+.spl-status { font-size: 12px; color: var(--text3); margin-top: 14px; }
+
+/* ══ LOADING LINE ════════════════════════════ */
+#loadLine {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: var(--text); z-index: 9998;
+  width: 0; display: none; transition: width .4s;
+}
+
+/* ══ TOP NAV ═════════════════════════════════ */
+nav.top {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--nav); backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  height: 56px; padding: 0 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.logo-mark {
+  width: 32px; height: 32px; border-radius: 10px;
+  background: var(--text); display: flex; align-items: center;
+  justify-content: center;
+}
+.logo-mark svg { width: 16px; height: 16px; fill: var(--bg); }
+.logo-text { font-size: 15px; font-weight: 800; color: var(--text); letter-spacing: -.3px; }
+
+.reg-pill {
+  flex: 1; display: flex; align-items: center; gap: 8px;
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 99px; padding: 7px 14px; cursor: pointer;
+  font-size: 13px; font-weight: 600; color: var(--text);
+  max-width: 200px; overflow: hidden;
+  transition: background .15s, border-color .15s;
+  box-shadow: var(--shadow-sm);
+}
+.reg-pill:active { background: var(--bg2); }
+.reg-pill .rname { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.reg-pill .arr { color: var(--text3); font-size: 10px; flex-shrink: 0; }
+
+.nav-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+.nav-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 15px; position: relative;
+  transition: background .15s; box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+.nav-btn:active { background: var(--bg2); }
+.notif-dot {
+  position: absolute; top: 4px; right: 4px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--red); border: 2px solid var(--nav);
+  display: none;
+}
+.notif-dot.show { display: block; }
+
+/* ══ OFFLINE BAR ═════════════════════════════ */
+.offline-bar {
+  background: var(--yellow-bg); border-bottom: 1px solid rgba(245,166,35,.2);
+  padding: 8px 16px; font-size: 12px; font-weight: 600;
+  color: var(--yellow-text); display: none; align-items: center; gap: 8px;
+}
+.offline-bar.show { display: flex; }
+
+/* ══ SCROLL AREA ═════════════════════════════ */
+.scroll-area {
+  padding: 12px 16px 90px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+/* ══ SECTION TITLE ═══════════════════════════ */
+.sect-title {
+  font-size: 11px; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 0 2px; margin-bottom: -2px;
+}
+
+/* ══ CARD BASE ═══════════════════════════════ */
+.card {
+  background: var(--surface); border-radius: var(--r-lg);
+  padding: 16px; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+
+/* ══ STATUS HERO CARD ════════════════════════ */
+.hero-card {
+  background: var(--surface); border-radius: var(--r-xl);
+  padding: 20px; box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+  position: relative; overflow: hidden;
+  transition: border-color .3s;
+}
+.hero-card.is-on { border-color: rgba(37,192,90,.25); }
+.hero-card.is-off { border-color: rgba(245,61,61,.25); }
+.hero-card.is-maybe { border-color: rgba(245,166,35,.25); }
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 12px 5px 8px; border-radius: 99px;
+  font-size: 12px; font-weight: 700; margin-bottom: 14px;
+}
+.hero-pill.on { background: var(--green-bg); color: var(--green-text); }
+.hero-pill.off { background: var(--red-bg); color: var(--red-text); }
+.hero-pill.maybe { background: var(--yellow-bg); color: var(--yellow-text); }
+.hero-pill .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  animation: blink 1.4s ease-in-out infinite;
+}
+.on .dot { background: var(--green); }
+.off .dot { background: var(--red); }
+.maybe .dot { background: var(--yellow); }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+
+.hero-region {
+  font-size: 22px; font-weight: 800; letter-spacing: -.5px;
+  line-height: 1.2; margin-bottom: 4px;
+}
+.hero-queue-lbl {
+  font-size: 13px; color: var(--text2); font-weight: 500;
+  margin-bottom: 16px;
+}
+.hero-next {
+  background: var(--bg); border-radius: var(--r-md);
+  padding: 12px 14px; display: flex; align-items: center; gap: 12px;
+}
+.hero-next-left { flex: 1; }
+.hero-next-label { font-size: 11px; color: var(--text2); font-weight: 500; margin-bottom: 3px; }
+.hero-next-time { font-size: 20px; font-weight: 800; letter-spacing: -.3px; }
+.hero-next-cd {
+  text-align: right;
+  font-size: 13px; font-weight: 700; color: var(--yellow-text);
+}
+.hero-next-cd-lbl { font-size: 10px; color: var(--text3); font-weight: 500; }
+
+/* ══ QUEUE BAR ═══════════════════════════════ */
+.queue-bar-wrap { display: flex; flex-direction: column; gap: 8px; }
+.queue-bar {
+  display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+  padding: 2px 0;
+}
+.queue-bar::-webkit-scrollbar { display: none; }
+.q-chip {
+  flex-shrink: 0; padding: 7px 14px; border-radius: 99px;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  border: 1.5px solid var(--border2);
+  background: var(--surface); color: var(--text2);
+  transition: all .15s; box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+}
+.q-chip.act { background: var(--text); color: var(--bg); border-color: var(--text); }
+.q-chip.st-off { border-color: rgba(245,61,61,.4); color: var(--red-text); }
+.q-chip.st-on { border-color: rgba(37,192,90,.4); color: var(--green-text); }
+.q-chip.st-maybe { border-color: rgba(245,166,35,.4); color: var(--yellow-text); }
+
+/* ══ DAY TABS ════════════════════════════════ */
+.day-tabs {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  background: var(--bg2); border-radius: var(--r-sm);
+  padding: 3px; gap: 3px;
+}
+.d-tab {
+  padding: 8px 4px; text-align: center;
+  font-size: 12px; font-weight: 600; color: var(--text2);
+  border-radius: 9px; cursor: pointer;
+  transition: all .18s; user-select: none;
+}
+.d-tab.act {
+  background: var(--surface); color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ══ TIMELINE ════════════════════════════════ */
+.timeline-card { padding: 16px; }
+.tl-label {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
+}
+.tl-label-left { font-size: 13px; font-weight: 700; }
+.tl-label-right { font-size: 11px; color: var(--text3); }
+.tl-track {
+  display: flex; gap: 1.5px; border-radius: 6px;
+  overflow: hidden; margin-bottom: 6px; height: 28px;
+}
+.tl-seg {
+  flex: 1; cursor: pointer; transition: filter .15s, opacity .15s;
+  position: relative;
+}
+.tl-seg:hover { filter: brightness(1.15); }
+.tl-seg:active { opacity: .8; }
+.tl-seg.on { background: var(--green); }
+.tl-seg.off { background: var(--red); }
+.tl-seg.maybe { background: var(--yellow); opacity: .7; }
+.tl-seg.now::after {
+  content: ''; position: absolute; inset: -2px;
+  border: 2px solid var(--text); border-radius: 2px;
+  pointer-events: none;
+}
+.tl-times {
+  display: flex; justify-content: space-between;
+  font-size: 10px; color: var(--text3); font-weight: 500;
+}
+
+/* ══ STATS ROW ═══════════════════════════════ */
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stat-card {
+  background: var(--surface); border-radius: var(--r-md);
+  padding: 14px 12px; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border); text-align: center;
+}
+.stat-val {
+  font-size: 24px; font-weight: 800; letter-spacing: -.5px;
+  line-height: 1; margin-bottom: 4px;
+}
+.stat-lbl { font-size: 10px; color: var(--text2); font-weight: 600; }
+
+/* ══ QUEUE GRID ══════════════════════════════ */
+.queues-head {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.filter-row { display: flex; gap: 4px; }
+.flt-pill {
+  padding: 5px 12px; border-radius: 99px;
+  font-size: 11px; font-weight: 700; cursor: pointer;
+  border: 1.5px solid var(--border2);
+  background: transparent; color: var(--text2);
+  transition: all .15s;
+}
+.flt-pill.act { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+.q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.q-card {
+  background: var(--surface); border-radius: var(--r-md);
+  padding: 14px; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border); cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.q-card:active { transform: scale(.97); box-shadow: var(--shadow-sm); }
+.q-card-head { display: flex; align-items: center; justify-content: space-between; }
+.q-card-name { font-size: 13px; font-weight: 800; }
+.q-status {
+  font-size: 10px; font-weight: 700; padding: 3px 8px;
+  border-radius: 99px;
+}
+.q-status.on { background: var(--green-bg); color: var(--green-text); }
+.q-status.off { background: var(--red-bg); color: var(--red-text); }
+.q-status.maybe { background: var(--yellow-bg); color: var(--yellow-text); }
+.q-mini-bar { display: flex; gap: 1px; height: 6px; border-radius: 3px; overflow: hidden; }
+.q-mini-seg { flex: 1; }
+.q-mini-seg.on { background: var(--green); }
+.q-mini-seg.off { background: var(--red); }
+.q-mini-seg.maybe { background: var(--yellow); opacity: .6; }
+.q-card-bot { font-size: 11px; color: var(--text2); font-weight: 500; }
+.q-card-bot strong { color: var(--text); font-weight: 700; }
+
+/* ══ EMERGENCY ═══════════════════════════════ */
+.emerg-card {
+  background: var(--red-bg); border: 1px solid rgba(245,61,61,.2);
+  border-radius: var(--r-md); padding: 12px 14px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; font-weight: 600; color: var(--red-text);
+  animation: emergBlink 2s ease infinite;
+}
+@keyframes emergBlink {
+  0%,100% { border-color: rgba(245,61,61,.2); }
+  50% { border-color: rgba(245,61,61,.5); }
+}
+
+/* ══ ERROR BOX ═══════════════════════════════ */
+.err-box {
+  background: var(--red-bg); border: 1px solid rgba(245,61,61,.2);
+  border-radius: var(--r-md); padding: 14px 16px;
+  font-size: 13px; color: var(--red-text); font-weight: 500;
+}
+.retry-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 10px; padding: 9px 16px;
+  background: var(--text); color: var(--bg);
+  border: none; border-radius: 99px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+}
+
+/* ══ HISTORY ═════════════════════════════════ */
+.hist-day-lbl {
+  font-size: 11px; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 0 2px; margin-top: 4px;
+}
+.hist-row {
+  background: var(--surface); border-radius: var(--r-md);
+  padding: 12px 14px; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border); cursor: pointer;
+  display: flex; align-items: center; gap: 10px;
+  transition: background .15s;
+}
+.hist-row:active { background: var(--bg2); }
+.hist-q { font-size: 12px; font-weight: 800; min-width: 34px; color: var(--text); }
+.hist-bar { flex: 1; display: flex; gap: 1px; height: 12px; border-radius: 3px; overflow: hidden; }
+.h-seg { flex: 1; }
+.h-seg.on { background: var(--green); }
+.h-seg.off { background: var(--red); }
+.h-seg.maybe { background: var(--yellow); opacity: .7; }
+.hist-meta { text-align: right; }
+.hist-hrs { font-size: 12px; font-weight: 700; color: var(--text); }
+.hist-sev { font-size: 10px; font-weight: 600; }
+.hist-sev.lo { color: var(--green-text); }
+.hist-sev.md { color: var(--yellow-text); }
+.hist-sev.hi { color: var(--red-text); }
+
+/* ══ REGIONS ═════════════════════════════════ */
+.region-item {
+  background: var(--surface); border-radius: var(--r-md);
+  padding: 14px; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border); cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  transition: all .15s;
+}
+.region-item:active { background: var(--bg2); }
+.region-item.sel { border-color: var(--text); }
+.ri-flag { font-size: 22px; width: 26px; text-align: center; flex-shrink: 0; }
+.ri-info { flex: 1; }
+.ri-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.ri-sub { font-size: 11px; color: var(--text2); font-weight: 500; }
+.ri-pct {
+  text-align: right; flex-shrink: 0;
+  font-size: 18px; font-weight: 800; letter-spacing: -.3px;
+}
+.ri-pct-lbl { font-size: 10px; color: var(--text3); font-weight: 500; }
+
+/* ══ SETTINGS ════════════════════════════════ */
+.sett-group {
+  background: var(--surface); border-radius: var(--r-lg);
+  overflow: hidden; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+.sett-group-title {
+  font-size: 11px; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 12px 16px 0;
+}
+.sett-row {
+  padding: 14px 16px; display: flex; align-items: center; gap: 13px;
+  border-bottom: 1px solid var(--border); cursor: default;
+}
+.sett-row:last-child { border-bottom: none; }
+.sett-row.tap { cursor: pointer; transition: background .15s; }
+.sett-row.tap:active { background: var(--bg2); }
+.sett-icon { font-size: 18px; width: 22px; text-align: center; flex-shrink: 0; }
+.sett-label { flex: 1; }
+.sett-name { font-size: 14px; font-weight: 600; }
+.sett-hint { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.toggle {
+  width: 46px; height: 26px; border-radius: 13px;
+  background: var(--bg2); border: none;
+  position: relative; cursor: pointer; flex-shrink: 0;
+  transition: background .22s;
+}
+.toggle::after {
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  transition: left .22s; 
+}
+.toggle.on { background: var(--green); }
+.toggle.on::after { left: 23px; }
+.sett-select {
+  background: var(--bg2); border: none; border-radius: 8px;
+  padding: 6px 10px; color: var(--text);
+  font-family: 'Manrope', sans-serif; font-size: 13px;
+  font-weight: 600; outline: none; cursor: pointer;
+}
+.sett-chip {
+  padding: 6px 12px; border-radius: 99px;
+  border: 1.5px solid var(--border2);
+  background: transparent; color: var(--text2);
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  transition: all .15s;
+}
+.sett-chip:active { background: var(--text); color: var(--bg); border-color: var(--text); }
+.ok-dot { font-size: 11px; font-weight: 700; color: var(--green-text); }
+.err-dot { font-size: 11px; font-weight: 700; color: var(--red-text); }
+
+/* ══ API STATUS BAR ══════════════════════════ */
+.api-bar {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 2px;
+}
+.api-indicator { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.api-indicator.ok { background: var(--green); animation: blink 2.5s ease infinite; }
+.api-indicator.err { background: var(--red); }
+.api-indicator.load { background: var(--yellow); animation: blink 1s ease infinite; }
+.api-indicator.cache { background: var(--yellow); }
+.api-text { font-size: 11px; color: var(--text3); font-weight: 500; }
+
+/* ══ VIEWS ═══════════════════════════════════ */
+.view { display: none; }
+.view.act { display: block; }
+
+/* ══ BOTTOM NAV ══════════════════════════════ */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--nav); backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  padding: 8px 0 env(safe-area-inset-bottom, 8px);
+  z-index: 200;
+}
+.bn {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 4px 8px; cursor: pointer;
+  color: var(--text3); font-size: 10px; font-weight: 600;
+  transition: color .18s; user-select: none;
+}
+.bn .bn-ico { font-size: 22px; line-height: 1; }
+.bn.act { color: var(--text); }
+
+/* ══ DRAWER / OVERLAY ════════════════════════ */
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.45);
+  backdrop-filter: blur(4px); z-index: 500;
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+.overlay.open { opacity: 1; pointer-events: auto; }
+.drawer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--surface); border-radius: 24px 24px 0 0;
+  z-index: 600; transform: translateY(100%);
+  transition: transform .32s cubic-bezier(.25,.8,.25,1);
+  max-height: 90vh; display: flex; flex-direction: column;
+  box-shadow: 0 -4px 40px rgba(0,0,0,.15);
+}
+.drawer.open { transform: translateY(0); }
+.drw-handle {
+  width: 40px; height: 4px; background: var(--border2);
+  border-radius: 2px; margin: 12px auto 0;
+}
+.drw-title {
+  font-size: 16px; font-weight: 800; padding: 14px 20px 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.drw-close { font-size: 13px; color: var(--text2); cursor: pointer; font-weight: 600; }
+.drw-search {
+  margin: 10px 16px; background: var(--bg);
+  border: 1px solid var(--border2); border-radius: 12px;
+  padding: 10px 14px; display: flex; align-items: center; gap: 8px;
+}
+.drw-search input {
+  background: none; border: none; outline: none;
+  color: var(--text); font-family: 'Manrope', sans-serif;
+  font-size: 14px; flex: 1;
+}
+.drw-search input::placeholder { color: var(--text3); }
+.drw-list { overflow-y: auto; flex: 1; padding: 8px 12px 24px; }
+.drw-item {
+  padding: 12px; border-radius: 14px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; font-size: 13px; font-weight: 600;
+  transition: background .15s; margin-bottom: 2px;
+}
+.drw-item:active { background: var(--bg2); }
+.drw-item.sel { background: var(--bg2); color: var(--text); }
+.drw-flag { font-size: 18px; width: 24px; text-align: center; }
+.drw-name { flex: 1; }
+.drw-stat { font-size: 11px; font-weight: 700; }
+
+/* ══ NOTIF PANEL ═════════════════════════════ */
+.notif-panel {
+  position: fixed; top: 56px; right: 0;
+  width: min(340px, 100%); background: var(--surface);
+  border-left: 1px solid var(--border);
+  border-bottom-left-radius: 20px;
+  height: calc(100vh - 56px); z-index: 300;
+  transform: translateX(100%);
+  transition: transform .28s cubic-bezier(.25,.8,.25,1);
+  display: flex; flex-direction: column;
+  box-shadow: -4px 0 24px rgba(0,0,0,.1);
+}
+.notif-panel.open { transform: translateX(0); }
+.np-head {
+  padding: 14px 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 15px; font-weight: 800;
+}
+.np-clear { font-size: 12px; font-weight: 600; color: var(--text2); cursor: pointer; }
+.np-body { flex: 1; overflow-y: auto; }
+.np-entry {
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  display: flex; gap: 10px; font-size: 13px;
+}
+.np-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+.np-dot.r { background: var(--red); }
+.np-dot.g { background: var(--green); }
+.np-dot.y { background: var(--yellow); }
+.np-time { font-size: 11px; color: var(--text3); margin-top: 3px; font-weight: 500; }
+
+/* ══ MODAL ═══════════════════════════════════ */
+.modal-bg {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5);
+  backdrop-filter: blur(6px); z-index: 700;
+  display: none; align-items: flex-end; justify-content: center;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: var(--surface); border-radius: 26px 26px 0 0;
+  width: 100%; max-width: 640px; max-height: 92vh;
+  overflow-y: auto; padding: 20px;
+  animation: modalUp .28s cubic-bezier(.25,.8,.25,1);
+}
+@keyframes modalUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+.modal-handle { width: 40px; height: 4px; background: var(--border2); border-radius: 2px; margin: 0 auto 18px; }
+.modal-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; letter-spacing: -.3px; }
+.modal-tl-track {
+  display: flex; gap: 1.5px; height: 24px;
+  border-radius: 6px; overflow: hidden; margin-bottom: 6px;
+}
+.modal-tl-seg { flex: 1; }
+.modal-tl-seg.on { background: var(--green); }
+.modal-tl-seg.off { background: var(--red); }
+.modal-tl-seg.maybe { background: var(--yellow); opacity: .7; }
+.modal-tl-seg.now { outline: 2px solid var(--text); outline-offset: 1px; }
+.modal-stats {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 8px; margin: 14px 0;
+}
+.modal-stat {
+  background: var(--bg); border-radius: var(--r-md);
+  padding: 12px; text-align: center;
+}
+.modal-stat-val { font-size: 22px; font-weight: 800; margin-bottom: 2px; letter-spacing: -.3px; }
+.modal-stat-lbl { font-size: 10px; color: var(--text2); font-weight: 600; }
+.modal-event {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 0; border-bottom: 1px solid var(--border);
+  font-size: 13px; font-weight: 600;
+}
+.modal-event:last-child { border-bottom: none; }
+.modal-ev-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.modal-ev-time { margin-left: auto; font-size: 12px; color: var(--text2); font-weight: 500; }
+.modal-btn {
+  width: 100%; margin-top: 14px; padding: 15px;
+  background: var(--text); color: var(--bg); border: none;
+  border-radius: var(--r-md); font-family: 'Manrope', sans-serif;
+  font-size: 14px; font-weight: 800; cursor: pointer;
+  letter-spacing: -.1px; transition: opacity .15s;
+}
+.modal-btn:active { opacity: .85; }
+
+/* ══ PERM PROMPT ═════════════════════════════ */
+.perm-prompt {
+  background: var(--surface); border-radius: var(--r-lg);
+  padding: 14px 16px; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+  font-size: 13px; font-weight: 600;
+}
+.perm-btn {
+  margin-left: auto; padding: 8px 16px;
+  background: var(--text); color: var(--bg); border: none;
+  border-radius: 99px; font-family: 'Manrope', sans-serif;
+  font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;
+}
+
+/* ══ TOAST ═══════════════════════════════════ */
+#toasts {
+  position: fixed; top: 66px; right: 14px;
+  z-index: 900; display: flex; flex-direction: column; gap: 6px;
+}
+.toast {
+  background: var(--text); color: var(--bg);
+  border-radius: 12px; padding: 11px 14px;
+  font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: var(--shadow-lg); max-width: 260px;
+  animation: toastIn .2s ease;
+}
+@keyframes toastIn { from { opacity: 0; transform: translateY(-8px); } }
+.toast.out { animation: toastOut .2s ease forwards; }
+@keyframes toastOut { to { opacity: 0; transform: translateY(-8px); } }
+
+/* ══ EMPTY / MISC ════════════════════════════ */
+.empty {
+  text-align: center; padding: 40px 20px;
+  font-size: 13px; color: var(--text2); font-weight: 500;
+}
+.empty-ico { font-size: 40px; margin-bottom: 10px; }
+
+@media (min-width: 600px) {
+  .q-grid { grid-template-columns: repeat(3, 1fr); }
+  .modal { border-radius: 26px; margin: auto; }
+  .modal-bg { align-items: center; }
+}
+
+/* ══ OTA UPDATE BANNER ═══════════════════════════════════ */
+#otaBanner {
+  position: fixed; top: 56px; left: 0; right: 0; z-index: 400;
+  background: var(--surface); border-bottom: 2px solid var(--green);
+  padding: 12px 16px; display: none; align-items: center; gap: 12px;
+  box-shadow: var(--shadow-md); animation: slideDown .3s ease;
+}
+#otaBanner.show { display: flex; }
+@keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } }
+.ota-icon { font-size: 22px; flex-shrink: 0; }
+.ota-text { flex: 1; }
+.ota-title { font-size: 13px; font-weight: 800; color: var(--text); }
+.ota-sub { font-size: 11px; color: var(--text2); margin-top: 1px; }
+.ota-btn {
+  padding: 8px 16px; background: var(--green); color: #fff;
+  border: none; border-radius: 99px; font-family: 'Manrope', sans-serif;
+  font-size: 12px; font-weight: 700; cursor: pointer; flex-shrink: 0;
+  transition: opacity .15s;
+}
+.ota-btn:active { opacity: .85; }
+.ota-close {
+  font-size: 18px; color: var(--text3); cursor: pointer;
+  padding: 4px; flex-shrink: 0;
+}
+/* OTA progress overlay */
+#otaProgress {
+  position: fixed; inset: 0; background: rgba(0,0,0,.6);
+  backdrop-filter: blur(6px); z-index: 800;
+  display: none; align-items: center; justify-content: center;
+}
+#otaProgress.show { display: flex; }
+.ota-card {
+  background: var(--surface); border-radius: var(--r-xl);
+  padding: 28px 24px; width: min(320px, 90%);
+  text-align: center; box-shadow: var(--shadow-lg);
+}
+.ota-card-icon { font-size: 48px; margin-bottom: 14px; }
+.ota-card-title { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+.ota-card-sub { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
+.ota-progress-bar {
+  background: var(--bg2); border-radius: 99px; height: 6px;
+  overflow: hidden; margin-bottom: 10px;
+}
+.ota-progress-fill {
+  height: 100%; background: var(--green);
+  border-radius: 99px; width: 0; transition: width .3s ease;
+}
+.ota-progress-pct { font-size: 12px; color: var(--text2); font-weight: 600; }
+.ota-install-btn {
+  width: 100%; padding: 14px; background: var(--green); color: #fff;
+  border: none; border-radius: var(--r-md); font-family: 'Manrope', sans-serif;
+  font-size: 14px; font-weight: 800; cursor: pointer; margin-top: 16px;
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ SPLASH ═════════════════════════════════════════════ -->
+<div id="splash">
+  <div class="spl-icon">
+    <svg viewBox="0 0 24 24"><path d="M13 2L4.5 13.5H11L11 22L19.5 10.5H13L13 2Z"/></svg>
+  </div>
+  <div class="spl-title">Світло UA</div>
+  <div class="spl-sub">Графіки відключень</div>
+  <div class="spl-progress"><div class="spl-bar" id="splBar"></div></div>
+  <div class="spl-status" id="splStatus">Підключення...</div>
+</div>
+
+<div id="loadLine"></div>
+
+<!-- ══ TOP NAV ════════════════════════════════════════════ -->
+<nav class="top">
+  <a class="logo" href="#">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M13 2L4.5 13.5H11L11 22L19.5 10.5H13L13 2Z"/></svg>
+    </div>
+    <span class="logo-text">Світло UA</span>
+  </a>
+  <div class="reg-pill" onclick="openDrawer()">
+    <span id="navFlag">🇺🇦</span>
+    <span class="rname" id="navReg">Оберіть регіон</span>
+    <span class="arr">▾</span>
+  </div>
+  <div class="nav-actions">
+    <div class="nav-btn" onclick="toggleNotifPanel()">
+      🔔<div class="notif-dot" id="notifDot"></div>
+    </div>
+    <div class="nav-btn" onclick="cycleTheme()" id="themeBtn">☀️</div>
+  </div>
+</nav>
+
+<!-- ══ OFFLINE BAR ════════════════════════════════════════ -->
+
+<!-- ══ OTA UPDATE BANNER ══════════════════════════════════ -->
+<div id="otaBanner">
+  <div class="ota-icon">⚡</div>
+  <div class="ota-text">
+    <div class="ota-title">Оновлення доступно <span id="otaVersion"></span></div>
+    <div class="ota-sub" id="otaSub">Нова версія додатку готова до завантаження</div>
+  </div>
+  <button class="ota-btn" onclick="startOtaDownload()">Завантажити</button>
+  <div class="ota-close" onclick="document.getElementById('otaBanner').classList.remove('show')">✕</div>
+</div>
+
+<!-- ══ OTA PROGRESS ═══════════════════════════════════════ -->
+<div id="otaProgress">
+  <div class="ota-card">
+    <div class="ota-card-icon" id="otaProgressIcon">⬇️</div>
+    <div class="ota-card-title" id="otaProgressTitle">Завантаження оновлення</div>
+    <div class="ota-card-sub" id="otaProgressSub">Будь ласка, зачекайте...</div>
+    <div class="ota-progress-bar"><div class="ota-progress-fill" id="otaFill"></div></div>
+    <div class="ota-progress-pct" id="otaPct">0%</div>
+    <button class="ota-install-btn" id="otaInstallBtn" onclick="installOta()">Встановити зараз</button>
+  </div>
+</div>
+
+<div class="offline-bar" id="offlineBar">📴 Офлайн — показано кешовані дані</div>
+
+<!-- ══ NOTIF PANEL ════════════════════════════════════════ -->
+<div class="notif-panel" id="notifPanel">
+  <div class="np-head">🔔 Сповіщення <span class="np-clear" onclick="clearNotifs()">Очистити</span></div>
+  <div class="np-body" id="notifBody"><div class="empty"><div class="empty-ico">🔕</div>Поки порожньо</div></div>
+</div>
+
+<!-- ══ REGION DRAWER ══════════════════════════════════════ -->
+<div class="overlay" id="drOv" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drw-handle"></div>
+  <div class="drw-title">
+    Регіон
+    <span class="drw-close" onclick="closeDrawer()">Закрити</span>
+  </div>
+  <div class="drw-search">
+    🔍<input type="text" id="regSearch" placeholder="Пошук регіону..." oninput="filterRegs(this.value)" autocomplete="off">
+  </div>
+  <div class="drw-list" id="regList"></div>
+</div>
+
+<!-- ══ MODAL ══════════════════════════════════════════════ -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ══ TOASTS ═════════════════════════════════════════════ -->
+<div id="toasts"></div>
+
+<!-- ══ VIEWS ══════════════════════════════════════════════ -->
+
+<!-- SCHEDULE -->
+<div class="view act" id="view-schedule">
+  <div class="scroll-area" id="scheduleScroll">
+    <div id="permBanner"></div>
+    <div id="emerBanner"></div>
+    <div class="api-bar">
+      <div class="api-indicator load" id="apiDot"></div>
+      <span class="api-text" id="apiTxt">Підключення...</span>
+    </div>
+    <div class="queue-bar-wrap">
+      <div class="sect-title">Черга</div>
+      <div class="queue-bar" id="qBar"></div>
+    </div>
+    <div class="day-tabs">
+      <div class="d-tab act" onclick="setDay(0,this)">Сьогодні</div>
+      <div class="d-tab" onclick="setDay(1,this)">Завтра</div>
+      <div class="d-tab" onclick="setDay(2,this)">Після</div>
+    </div>
+    <div class="hero-card" id="heroCard">
+      <div class="hero-pill on" id="heroPill"><div class="dot"></div><span id="heroPillTxt">—</span></div>
+      <div class="hero-region" id="heroReg">Оберіть регіон</div>
+      <div class="hero-queue-lbl" id="heroSub">—</div>
+      <div class="hero-next" id="heroNext">
+        <div class="hero-next-left">
+          <div class="hero-next-label" id="hnLbl">—</div>
+          <div class="hero-next-time" id="hnTime">—</div>
+        </div>
+        <div>
+          <div class="hero-next-cd" id="hnCdVal">—</div>
+          <div class="hero-next-cd-lbl">залишилось</div>
+        </div>
+      </div>
+    </div>
+    <div class="card timeline-card">
+      <div class="tl-label">
+        <span class="tl-label-left">Графік на день</span>
+        <span class="tl-label-right" id="tlDate"></span>
+      </div>
+      <div class="tl-track" id="tlBar"></div>
+      <div class="tl-times"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-val" id="stOff" style="color:var(--red)">—</div><div class="stat-lbl">Без світла</div></div>
+      <div class="stat-card"><div class="stat-val" id="stOn" style="color:var(--green)">—</div><div class="stat-lbl">Зі світлом</div></div>
+      <div class="stat-card"><div class="stat-val" id="stPct">—</div><div class="stat-lbl">% відкл.</div></div>
+    </div>
+    <div class="queues-head">
+      <div class="sect-title">Всі черги</div>
+      <div class="filter-row">
+        <div class="flt-pill act" onclick="setFlt('all',this)">Всі</div>
+        <div class="flt-pill" onclick="setFlt('off',this)" style="color:var(--red-text)">OFF</div>
+        <div class="flt-pill" onclick="setFlt('on',this)" style="color:var(--green-text)">ON</div>
+      </div>
+    </div>
+    <div class="q-grid" id="qGrid"></div>
+  </div>
+</div>
+
+<!-- HISTORY -->
+<div class="view" id="view-history">
+  <div class="scroll-area" id="histScroll" style="gap:8px"></div>
+</div>
+
+<!-- REGIONS -->
+<div class="view" id="view-map">
+  <div class="scroll-area">
+    <div class="sect-title">Стан по регіонах</div>
+    <div id="mapItems"></div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="view" id="view-settings">
+  <div class="scroll-area">
+    <div class="sett-group">
+      <div class="sett-group-title">Мій регіон</div>
+      <div class="sett-row tap" onclick="openDrawer()">
+        <div class="sett-icon">📍</div>
+        <div class="sett-label">
+          <div class="sett-name" id="settReg">—</div>
+          <div class="sett-hint" id="settQ">—</div>
+        </div>
+        <div style="color:var(--text3);font-size:18px">›</div>
+      </div>
+    </div>
+    <div class="sett-group">
+      <div class="sett-group-title">Сповіщення</div>
+      <div class="sett-row">
+        <div class="sett-icon">🔔</div>
+        <div class="sett-label">
+          <div class="sett-name">Push-сповіщення</div>
+          <div class="sett-hint">При зміні стану електропостачання</div>
+        </div>
+        <div class="toggle" id="pushTog" onclick="togglePush()"></div>
+      </div>
+      <div class="sett-row">
+        <div class="sett-icon">⏰</div>
+        <div class="sett-label">
+          <div class="sett-name">Попередження за</div>
+          <div class="sett-hint" id="warnHint">15 хв до відключення</div>
+        </div>
+        <select class="sett-select" id="warnMin" onchange="saveSettings()">
+          <option value="5">5 хв</option>
+          <option value="10">10 хв</option>
+          <option value="15" selected>15 хв</option>
+          <option value="30">30 хв</option>
+        </select>
+      </div>
+      <div class="sett-row">
+        <div class="sett-icon">🌙</div>
+        <div class="sett-label">
+          <div class="sett-name">Тихий режим</div>
+          <div class="sett-hint">Без сповіщень вночі (22:00–07:00)</div>
+        </div>
+        <div class="toggle" id="quietTog" onclick="toggleQuiet()"></div>
+      </div>
+    </div>
+    <div class="sett-group">
+      <div class="sett-group-title">Оновлення</div>
+      <div class="sett-row">
+        <div class="sett-icon">🔄</div>
+        <div class="sett-label">
+          <div class="sett-name">Авто-оновлення</div>
+          <div class="sett-hint" id="lastUpdLbl">—</div>
+        </div>
+        <select class="sett-select" id="updInt" onchange="restartTimer()">
+          <option value="5">5 хв</option>
+          <option value="15" selected>15 хв</option>
+          <option value="30">30 хв</option>
+        </select>
+      </div>
+      <div class="sett-row tap" onclick="fetchData(true)">
+        <div class="sett-icon">⚡</div>
+        <div class="sett-label">
+          <div class="sett-name">Оновити зараз</div>
+          <div class="sett-hint">Примусовий запит до API</div>
+        </div>
+        <div style="color:var(--text3);font-size:18px">›</div>
+      </div>
+    </div>
+    <div class="sett-group">
+      <div class="sett-group-title">Оформлення</div>
+      <div class="sett-row">
+        <div class="sett-icon">🎨</div>
+        <div class="sett-label"><div class="sett-name">Тема</div></div>
+        <select class="sett-select" id="themeSel" onchange="setTheme(this.value)">
+          <option value="light">Світла ☀️</option>
+          <option value="dark">Темна 🌙</option>
+        </select>
+      </div>
+    </div>
+    <div class="sett-group">
+      <div class="sett-group-title">Дані та безпека</div>
+      <div class="sett-row">
+        <div class="sett-icon">🔒</div>
+        <div class="sett-label">
+          <div class="sett-name">API проксі</div>
+          <div class="sett-hint">dtek-api.svitlo-proxy.workers.dev</div>
+        </div>
+        <span class="ok-dot" id="proxyStatus">● OK</span>
+      </div>
+      <div class="sett-row">
+        <div class="sett-icon">💾</div>
+        <div class="sett-label">
+          <div class="sett-name">Кеш даних</div>
+          <div class="sett-hint" id="cacheInfo">—</div>
+        </div>
+        <div class="sett-chip" onclick="clearCache()">Очистити</div>
+      </div>
+      <div class="sett-row">
+        <div class="sett-icon">🚫</div>
+        <div class="sett-label">
+          <div class="sett-name">Без трекінгу</div>
+          <div class="sett-hint">Дані не передаються третім особам</div>
+        </div>
+        <span class="ok-dot">✓</span>
+      </div>
+    </div>
+    <div class="sett-group">
+      <div class="sett-group-title">Про додаток</div>
+      <div class="sett-row">
+        <div class="sett-icon">⚡</div>
+        <div class="sett-label">
+          <div class="sett-name">Світло UA v5.0</div>
+          <div class="sett-hint">Kyiv fix · Push · DDoS Shield · Diia-style</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BOTTOM NAV ══════════════════════════════════════════ -->
+<nav class="bottom-nav">
+  <div class="bn act" id="bn-schedule" onclick="switchView('schedule',this)">
+    <div class="bn-ico">⚡</div>Графік
+  </div>
+  <div class="bn" id="bn-history" onclick="switchView('history',this)">
+    <div class="bn-ico">📅</div>Історія
+  </div>
+  <div class="bn" id="bn-map" onclick="switchView('map',this)">
+    <div class="bn-ico">🗺</div>Регіони
+  </div>
+  <div class="bn" id="bn-settings" onclick="switchView('settings',this)">
+    <div class="bn-ico">⚙️</div>Налаштування
+  </div>
+</nav>
+
+<script>
+'use strict';
+// ╔══════════════════════════════════════════════════════════╗
+// ║  SVITLO UA v5.0 — Diia-style · Kyiv Fix · Push · DDoS  ║
+// ╚══════════════════════════════════════════════════════════╝
+
+const API_URL   = 'https://dtek-api.svitlo-proxy.workers.dev/';
+const CACHE_KEY = 'svitlo_cache_v5';
+const STORE_KEY = 'svitlo_v5';
+const CACHE_TTL = 5 * 60 * 1000; // 5 min
+
+const REGION_META = {
+  'kiivska-oblast':           {name:'Київська обл.',          flag:'🌿'},
+  'kyiv-city':                {name:'м. Київ',                flag:'🏛'},
+  'odeska-oblast':            {name:'Одеська обл.',           flag:'🌊'},
+  'dnipropetrovska-oblast':   {name:'Дніпропетровська обл.',  flag:'⛏'},
+  'lvivska-oblast':           {name:'Львівська обл.',         flag:'🦁'},
+  'poltavska-oblast':         {name:'Полтавська обл.',        flag:'🌾'},
+  'cherkaska-oblast':         {name:'Черкаська обл.',         flag:'⚓'},
+  'chernihivska-oblast':      {name:'Чернігівська обл.',      flag:'🦅'},
+  'kharkivska-oblast':        {name:'Харківська обл.',        flag:'🔬'},
+  'zhytomyrska-oblast':       {name:'Житомирська обл.',       flag:'🌳'},
+  'sumska-oblast':            {name:'Сумська обл.',           flag:'🐻'},
+  'rivnenska-oblast':         {name:'Рівненська обл.',        flag:'🌲'},
+  'ternopilska-oblast':       {name:'Тернопільська обл.',     flag:'🏺'},
+  'ivano-frankivska-oblast':  {name:'Івано-Франківська обл.', flag:'🏞'},
+  'khmelnytska-oblast':       {name:'Хмельницька обл.',       flag:'🏰'},
+  'zakarpatska-oblast':       {name:'Закарпатська обл.',      flag:'🏔'},
+  'zaporizka-oblast':         {name:'Запорізька обл.',        flag:'⚙️'},
+  'mykolaivska-oblast':       {name:'Миколаївська обл.',      flag:'⛵'},
+  'vinnytska-oblast':         {name:'Вінницька обл.',         flag:'🌹'},
+  'volynska-oblast':          {name:'Волинська обл.',         flag:'🦢'},
+  'kirovohradska-oblast':     {name:'Кіровоградська обл.',    flag:'🌻'},
+  'khersonska-oblast':        {name:'Херсонська обл.',        flag:'🌊'},
+  'chernivtska-oblast':       {name:'Чернівецька обл.',       flag:'🏔'},
+};
+
+// ── STATE ──────────────────────────────────────────────────
+let S = {
+  regionCpu: 'cherkaska-oblast',
+  queue: '1.1', day: 0, filter: 'all',
+  theme: 'light', pushEnabled: false, warnMin: 15, quietMode: true,
+  notifications: [], apiData: null, lastFetch: null, fetchError: null, retryCount: 0,
+};
+function loadS(){
+  try{ const d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}'); Object.assign(S,d); S.apiData=null; }catch(e){}
+}
+function saveS(){
+  const d={...S,apiData:null,fetchError:null};
+  localStorage.setItem(STORE_KEY,JSON.stringify(d));
+}
+
+// ── CACHE ──────────────────────────────────────────────────
+function cacheWrite(data){
+  try{ localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),data})); updateCacheInfo(); }catch(e){}
+}
+function cacheRead(){
+  try{
+    const r=localStorage.getItem(CACHE_KEY); if(!r) return null;
+    const {ts,data}=JSON.parse(r);
+    if(Date.now()-ts>CACHE_TTL) return null;
+    return data;
+  }catch(e){ return null; }
+}
+function cacheClear(){ localStorage.removeItem(CACHE_KEY); updateCacheInfo(); }
+function updateCacheInfo(){
+  const el=document.getElementById('cacheInfo'); if(!el) return;
+  const r=localStorage.getItem(CACHE_KEY);
+  if(!r){ el.textContent='Немає кешу'; return; }
+  try{
+    const {ts}=JSON.parse(r);
+    const min=Math.round((Date.now()-ts)/60000);
+    el.textContent=`Кешовано ${min} хв тому · ${(r.length/1024).toFixed(1)} КБ`;
+  }catch(e){ el.textContent='Кеш є'; }
+}
+function clearCache(){ cacheClear(); toast('💾 Кеш очищено'); }
+
+// ── HELPERS ────────────────────────────────────────────────
+function todayStr(off=0){ const d=new Date(); d.setDate(d.getDate()+off); return d.toISOString().slice(0,10); }
+function getRegionData(cpu){ return S.apiData?.find(r=>r.cpu===cpu)||null; }
+
+// ── KYIV FIX ───────────────────────────────────────────────
+// Normal regions: ≤12 queues like "1.1".."6.2" → return sorted as-is
+// Kyiv-city: 60 plain integers "1".."60" → virtual groups G1..G6 (10 per group)
+// Other large regions: dot-notation >12, group by single-digit prefix 1-6
+
+function sortByDotNum(arr){
+  return [...arr].sort((a,b)=>{
+    const pa=String(a).split('.'), pb=String(b).split('.');
+    const [am,as_]=[+pa[0],+(pa[1]||0)], [bm,bs_]=[+pb[0],+(pb[1]||0)];
+    return am!==bm?am-bm:as_-bs_;
+  });
+}
+
+// Get raw sub-queue keys that belong to a virtual group key
+function groupMembers(rawQueues, groupKey){
+  if(groupKey.startsWith('G')){
+    // Plain-integer Kyiv groups: G1=1-10, G2=11-20, G3=21-30, G4=31-40, G5=41-50, G6=51-60
+    const g=+groupKey.slice(1);
+    const nums=rawQueues.map(Number).filter(n=>Number.isInteger(n)&&n>0).sort((a,b)=>a-b);
+    const perGrp=Math.ceil(nums[nums.length-1]/6)||10;
+    const lo=(g-1)*perGrp+1, hi=g*perGrp;
+    return rawQueues.filter(q=>{ const n=Number(q); return Number.isInteger(n)&&n>=lo&&n<=hi; });
+  }
+  // Dot-notation group: e.g. groupKey="1" → matches "1.1","1.2",...
+  return rawQueues.filter(q=>String(q).split('.')[0]===groupKey);
+}
+
+function getEffectiveQueues(cpu){
+  const reg=getRegionData(cpu); if(!reg) return [];
+  const raw=Object.keys(reg.schedule||{});
+  if(raw.length<=12) return sortByDotNum(raw); // normal region — return as-is
+
+  // Kyiv-city style: all keys are plain integers "1".."60"
+  if(raw.every(q=>/^\d+$/.test(q))){
+    const nums=raw.map(Number).sort((a,b)=>a-b);
+    const perGrp=Math.ceil(nums[nums.length-1]/6)||10;
+    const groups=[];
+    for(let g=1;g<=6;g++){
+      const lo=(g-1)*perGrp+1, hi=g*perGrp;
+      if(nums.some(n=>n>=lo&&n<=hi)) groups.push('G'+g);
+    }
+    return groups; // ["G1","G2","G3","G4","G5","G6"]
+  }
+
+  // Dot-notation with >12 entries: group by single-digit prefix 1-6
+  const groups={};
+  raw.forEach(q=>{ const g=String(q).split('.')[0]; if(!groups[g]) groups[g]=[]; groups[g].push(q); });
+  const valid=Object.keys(groups).filter(g=>/^\d$/.test(g)).sort((a,b)=>+a-+b);
+  return valid.length ? valid : sortByDotNum(raw).slice(0,6);
+}
+
+function getSlots(cpu,queue,dayOffset=0){
+  const reg=getRegionData(cpu); if(!reg) return null;
+  const rawQueues=Object.keys(reg.schedule||{});
+  // Direct key in schedule → simple lookup
+  if(rawQueues.includes(queue)){
+    const qSched=reg.schedule[queue]; if(!qSched) return null;
+    const day=qSched[todayStr(dayOffset)]; if(!day) return null;
+    return Object.entries(day).map(([t,v])=>({time:t,status:v}));
+  }
+  // Virtual group key → merge sub-queues worst-case per slot
+  const subs=groupMembers(rawQueues, queue);
+  if(!subs.length) return null;
+  const merged={};
+  subs.forEach(sq=>{
+    const day=reg.schedule[sq]?.[todayStr(dayOffset)]; if(!day) return;
+    Object.entries(day).forEach(([t,v])=>{
+      if(!(t in merged)) merged[t]=v;
+      else{ if(v===2) merged[t]=2; else if(v===3&&merged[t]!==2) merged[t]=3; }
+    });
+  });
+  const entries=Object.entries(merged).sort(([a],[b])=>a.localeCompare(b));
+  return entries.length?entries.map(([t,v])=>({time:t,status:v})):null;
+}
+
+function slots48to24(s48){
+  if(!s48) return null;
+  const h=[];
+  for(let i=0;i<24;i++){
+    const t1=`${String(i).padStart(2,'0')}:00`, t2=`${String(i).padStart(2,'0')}:30`;
+    const s1=s48.find(s=>s.time===t1)?.status??1, s2=s48.find(s=>s.time===t2)?.status??1;
+    let v=1; if(s1===2||s2===2) v=2; else if(s1===3||s2===3) v=3;
+    h.push(v);
+  }
+  return h;
+}
+
+function sc(v){ return v===2?'off':v===3?'maybe':'on'; }
+function sl(v){ return v===2?'Немає світла':v===3?'Можливо':'Є світло'; }
+function offHrs(h){ return h?h.filter(v=>v===2).length:0; }
+function onHrs(h){ return h?h.filter(v=>v===1).length:0; }
+function qLabel(q){
+  if(q.startsWith('G')) return 'Гр.'+q.slice(1); // virtual Kyiv group
+  if(/^\d$/.test(q)) return 'Гр.'+q;            // dot-notation group key
+  return q;                                        // "1.1", "2.3" etc
+}
+function qLabelFull(q){
+  if(q.startsWith('G')) return 'Група '+q.slice(1);
+  if(/^\d$/.test(q)) return 'Група '+q;
+  return 'Черга '+q;
+}
+
+function curSlotStatus(cpu,queue){
+  const slots=getSlots(cpu,queue,0); if(!slots) return 1;
+  const now=new Date();
+  const t=`${String(now.getHours()).padStart(2,'0')}:${now.getMinutes()<30?'00':'30'}`;
+  return slots.find(s=>s.time===t)?.status??1;
+}
+function nextEvent(cpu,queue,dayOffset=0){
+  const slots=getSlots(cpu,queue,dayOffset); if(!slots) return null;
+  const now=new Date();
+  const si=dayOffset===0?slots.findIndex(s=>s.time===`${String(now.getHours()).padStart(2,'0')}:${now.getMinutes()<30?'00':'30'}`):-1;
+  const cur=slots[Math.max(0,si)]?.status??1;
+  for(let i=Math.max(0,si)+1;i<slots.length;i++){
+    if(slots[i].status!==cur) return {type:slots[i].status,time:slots[i].time};
+  }
+  return null;
+}
+
+// ── RATE LIMITER ───────────────────────────────────────────
+const _rl={tokens:3,last:Date.now()};
+function rlOk(){
+  const now=Date.now(), dt=(now-_rl.last)/1000;
+  _rl.tokens=Math.min(3,_rl.tokens+dt*(3/60)); _rl.last=now;
+  if(_rl.tokens>=1){ _rl.tokens-=1; return true; } return false;
+}
+
+// ── API FETCH ──────────────────────────────────────────────
+let fetchTimer=null, _fetching=false;
+const BACKOFF=[0,2000,5000,15000,30000];
+
+async function fetchData(force=false){
+  if(_fetching) return;
+  if(!force&&S.lastFetch&&(Date.now()-S.lastFetch)<60000) return;
+  if(!rlOk()&&!force){ toast('⏱ Зачекайте'); return; }
+  _fetching=true; showLoader(true); setApiStatus('load','Завантаження...');
+  if(!force){ const c=cacheRead(); if(c){ S.apiData=c; S.fetchError=null; setApiStatus('cache','З кешу'); renderAll(); showLoader(false); _fetching=false; return; } }
+  const delay=BACKOFF[Math.min(S.retryCount,BACKOFF.length-1)];
+  if(delay>0) await new Promise(r=>setTimeout(r,delay));
+  try{
+    const ctrl=new AbortController(); const tid=setTimeout(()=>ctrl.abort(),12000);
+    const res=await fetch(API_URL,{signal:ctrl.signal,headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'},cache:'no-store'});
+    clearTimeout(tid);
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json=await res.json();
+    let parsed=json;
+    if(typeof json.body==='string'){ try{parsed=JSON.parse(json.body);}catch(e){} }
+    const regions=parsed.regions||parsed;
+    S.apiData=Array.isArray(regions)?regions:Object.values(regions);
+    if(!S.apiData.length||!S.apiData[0]?.schedule) throw new Error('Неочікуваний формат');
+    S.lastFetch=Date.now(); S.fetchError=null; S.retryCount=0;
+    cacheWrite(S.apiData);
+    setApiStatus('ok',`Оновлено ${new Date().toTimeString().slice(0,5)}`);
+    document.getElementById('lastUpdLbl').textContent=`Оновлено: ${new Date().toTimeString().slice(0,5)}`;
+    document.getElementById('proxyStatus').textContent='● OK';
+    document.getElementById('proxyStatus').className='ok-dot';
+    setOffline(false); renderAll(); checkStatusChange(); scheduleLocalNotif();
+  }catch(e){
+    S.fetchError=e.message; S.retryCount++;
+    const isOff=!navigator.onLine||e.name==='AbortError';
+    const cached=cacheRead();
+    if(cached&&!S.apiData){ S.apiData=cached; setApiStatus('cache','Помилка — із кешу'); toast('⚠️ Кешовані дані'); renderAll(); }
+    else if(S.apiData) setApiStatus('err',`Помилка: ${e.message.slice(0,30)}`);
+    else {
+      setApiStatus('err','Немає з\'єднання');
+      document.getElementById('emerBanner').innerHTML=`<div class="err-box">⚠️ ${isOff?'Немає інтернету':'Помилка API'}: ${e.message}<br><button class="retry-btn" onclick="fetchData(true)">🔄 Спробувати знову</button></div>`;
+    }
+    setOffline(isOff);
+    document.getElementById('proxyStatus').textContent='● Помилка';
+    document.getElementById('proxyStatus').className='err-dot';
+  }finally{ _fetching=false; showLoader(false); }
+}
+
+function setOffline(v){ document.getElementById('offlineBar').classList.toggle('show',v); }
+function showLoader(on){
+  const b=document.getElementById('loadLine');
+  if(on){b.style.display='block';b.style.width='0';setTimeout(()=>b.style.width='80%',10);}
+  else{b.style.width='100%';setTimeout(()=>{b.style.width='0';b.style.display='none';},400);}
+}
+function setApiStatus(state,txt){
+  document.getElementById('apiDot').className=`api-indicator ${state}`;
+  document.getElementById('apiTxt').textContent=txt;
+}
+function restartTimer(){
+  clearInterval(fetchTimer);
+  const min=parseInt(document.getElementById('updInt').value)||15;
+  fetchTimer=setInterval(()=>fetchData(),min*60000);
+}
+
+// ── STATUS CHANGE ──────────────────────────────────────────
+let prevSt={};
+function checkStatusChange(){
+  if(!S.apiData||!S.pushEnabled) return;
+  const cpu=S.regionCpu,q=S.queue;
+  const st=curSlotStatus(cpu,q); const key=`${cpu}_${q}`;
+  if(prevSt[key]!==undefined&&prevSt[key]!==st){
+    const msg=st===2?`❌ ${REGION_META[cpu]?.name||cpu} · ${qLabelFull(q)} — ВІДКЛЮЧЕННЯ!`:`✅ ${REGION_META[cpu]?.name||cpu} · ${qLabelFull(q)} — Світло увімкнено`;
+    pushNotif(msg,st===2?'r':'g'); addNotif({type:st===2?'r':'g',text:msg});
+  }
+  prevSt[key]=st;
+}
+
+// ── RENDER ─────────────────────────────────────────────────
+function renderAll(){
+  renderQBar(); renderHero(); renderTimeline();
+  renderStats(); renderQGrid(); updateSettingsUI(); updateCacheInfo();
+}
+
+function renderQBar(){
+  const cpu=S.regionCpu; const queues=getEffectiveQueues(cpu);
+  if(!queues.length){document.getElementById('qBar').innerHTML='';return;}
+  if(!queues.includes(S.queue)){S.queue=queues[0];saveS();}
+  document.getElementById('qBar').innerHTML=queues.map(q=>{
+    const st=curSlotStatus(cpu,q); const cls=sc(st);
+    const act=q===S.queue;
+    return `<div class="q-chip${act?' act':' st-'+cls}" onclick="setQ('${q}')">${qLabel(q)}</div>`;
+  }).join('');
+}
+
+function renderHero(){
+  const cpu=S.regionCpu,q=S.queue,d=S.day;
+  const meta=REGION_META[cpu]||{name:cpu,flag:'🇺🇦'};
+  document.getElementById('navFlag').textContent=meta.flag;
+  document.getElementById('navReg').textContent=meta.name;
+  document.getElementById('heroReg').textContent=meta.name;
+  const WD=['Нд','Пн','Вт','Ср','Чт','Пт','Сб'];
+  const dt=new Date(); dt.setDate(dt.getDate()+d);
+  const dayLbl=d===0?'Сьогодні':d===1?'Завтра':'Після завтра';
+  document.getElementById('heroSub').textContent=`${qLabelFull(q)} · ${dayLbl}, ${WD[dt.getDay()]} ${dt.getDate()}.${String(dt.getMonth()+1).padStart(2,'0')}`;
+  const slots=getSlots(cpu,q,d);
+  const hero=document.getElementById('heroCard');
+  if(!slots){
+    hero.className='hero-card';
+    document.getElementById('heroPill').className='hero-pill on';
+    document.getElementById('heroPillTxt').textContent='Немає даних';
+    document.getElementById('hnLbl').textContent='—';
+    document.getElementById('hnTime').textContent='—';
+    document.getElementById('hnCdVal').textContent='—';
+    return;
+  }
+  const now=new Date();
+  const curT=`${String(now.getHours()).padStart(2,'0')}:${now.getMinutes()<30?'00':'30'}`;
+  const curSt=d===0?(slots.find(s=>s.time===curT)?.status??1):(slots[16]?.status??1);
+  const cls=sc(curSt);
+  hero.className=`hero-card is-${cls}`;
+  const pill=document.getElementById('heroPill');
+  pill.className=`hero-pill ${cls}`;
+  document.getElementById('heroPillTxt').textContent=sl(curSt);
+  const reg=getRegionData(cpu);
+  const emEl=document.getElementById('emerBanner');
+  if(reg?.emergency&&!S.fetchError)
+    emEl.innerHTML=`<div class="emerg-card">🚨 Аварійне відключення! Графік може бути змінено</div>`;
+  else if(!S.fetchError) emEl.innerHTML='';
+  const ne=nextEvent(cpu,q,d);
+  if(ne){
+    const isOff=ne.type===2;
+    document.getElementById('hnLbl').textContent=isOff?'⏱ Наступне відключення':'🟢 Наступне увімкнення';
+    document.getElementById('hnLbl').style.color=isOff?'var(--red-text)':'var(--green-text)';
+    document.getElementById('hnTime').textContent=ne.time;
+    if(d===0){
+      const[hh,mm]=ne.time.split(':').map(Number);
+      const diff=hh*60+mm-(now.getHours()*60+now.getMinutes());
+      document.getElementById('hnCdVal').textContent=diff>0?(diff>=60?`${Math.floor(diff/60)}г ${diff%60}хв`:`${diff} хв`):'—';
+    } else document.getElementById('hnCdVal').textContent='—';
+  } else {
+    document.getElementById('hnLbl').textContent='Більше подій немає';
+    document.getElementById('hnLbl').style.color='var(--text2)';
+    document.getElementById('hnTime').textContent='—';
+    document.getElementById('hnCdVal').textContent='—';
+  }
+}
+
+function renderTimeline(){
+  const cpu=S.regionCpu,q=S.queue,d=S.day;
+  const slots=getSlots(cpu,q,d); const now=new Date();
+  const bar=document.getElementById('tlBar');
+  if(!slots){bar.innerHTML=`<div style="flex:1;background:var(--bg2);border-radius:4px"></div>`;return;}
+  bar.innerHTML=slots.map(s=>{
+    const isNow=d===0&&s.time===`${String(now.getHours()).padStart(2,'0')}:${now.getMinutes()<30?'00':'30'}`;
+    return `<div class="tl-seg ${sc(s.status)}${isNow?' now':''}" data-tip="${s.time} ${sl(s.status)}"></div>`;
+  }).join('');
+  const dt=new Date(); dt.setDate(dt.getDate()+d);
+  const WD=['Нд','Пн','Вт','Ср','Чт','Пт','Сб'];
+  document.getElementById('tlDate').textContent=`${WD[dt.getDay()]} ${dt.getDate()}.${String(dt.getMonth()+1).padStart(2,'0')}`;
+}
+
+function renderStats(){
+  const hours=slots48to24(getSlots(S.regionCpu,S.queue,S.day));
+  if(!hours){['stOff','stOn','stPct'].forEach(id=>document.getElementById(id).textContent='—');return;}
+  const off=offHrs(hours),on=onHrs(hours);
+  document.getElementById('stOff').textContent=`${off}г`;
+  document.getElementById('stOn').textContent=`${on}г`;
+  document.getElementById('stPct').textContent=`${Math.round(off/24*100)}%`;
+}
+
+function renderQGrid(){
+  const cpu=S.regionCpu,d=S.day; const el=document.getElementById('qGrid');
+  const queues=getEffectiveQueues(cpu).filter(q=>{
+    if(S.filter==='all') return true;
+    const st=curSlotStatus(cpu,q);
+    return S.filter==='off'?st===2:st===1||st===3;
+  });
+  if(!queues.length){el.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-ico">😅</div>Нічого не знайдено</div>`;return;}
+  const now=new Date();
+  el.innerHTML=queues.map(q=>{
+    const slots=getSlots(cpu,q,d); const hours=slots48to24(slots);
+    const curSt=d===0?curSlotStatus(cpu,q):(slots?.[16]?.status??1);
+    const cls=sc(curSt); const off=hours?offHrs(hours):0;
+    const ne=nextEvent(cpu,q,d);
+    const neTxt=ne?`${ne.type===2?'⏱':'🟢'} ${ne.time}`:'—';
+    const curI=slots?slots.findIndex(s=>s.time===`${String(now.getHours()).padStart(2,'0')}:${now.getMinutes()<30?'00':'30'}`):0;
+    const mini=(slots||[]).map((s,i)=>`<div class="q-mini-seg ${sc(s.status)}${d===0&&i===curI?' sel':''}"></div>`).join('');
+    return `<div class="q-card" onclick="openModal('${q}')">
+      <div class="q-card-head">
+        <div class="q-card-name">⚡ ${qLabel(q)}</div>
+        <div class="q-status ${cls}">${cls==='on'?'ON':cls==='off'?'OFF':'??'}</div>
+      </div>
+      <div class="q-mini-bar">${mini}</div>
+      <div class="q-card-bot"><strong>${off} год</strong> відкл. · ${neTxt}</div>
+    </div>`;
+  }).join('');
+}
+
+function openModal(q){
+  const cpu=S.regionCpu,d=S.day;
+  const meta=REGION_META[cpu]||{name:cpu,flag:'🇺🇦'};
+  const slots=getSlots(cpu,q,d); const hours=slots48to24(slots);
+  const off=offHrs(hours),on=onHrs(hours);
+  const now=new Date();
+  const ci=slots?slots.findIndex(s=>s.time===`${String(now.getHours()).padStart(2,'0')}:${now.getMinutes()<30?'00':'30'}`):0;
+  const tlHtml=(slots||[]).map((s,i)=>`<div class="modal-tl-seg ${sc(s.status)}${d===0&&i===ci?' now':''}"></div>`).join('');
+  let evs=[],cst=slots?.[0]?.status??1,st=slots?.[0]?.time??'00:00';
+  (slots||[]).forEach((s,i)=>{ if(i>0&&s.status!==cst){evs.push({type:cst,start:st,end:s.time});cst=s.status;st=s.time;} });
+  if(slots?.length) evs.push({type:cst,start:st,end:'24:00'});
+  const dotColor=t=>t===2?'var(--red)':t===3?'var(--yellow)':'var(--green)';
+  const evHtml=evs.map(e=>`<div class="modal-event">
+    <div class="modal-ev-dot" style="background:${dotColor(e.type)}"></div>
+    <div>${sl(e.type)}</div>
+    <div class="modal-ev-time">${e.start} – ${e.end}</div>
+  </div>`).join('');
+  document.getElementById('modalTitle').textContent=`${meta.flag} ${meta.name} · ${qLabelFull(q)}`;
+  document.getElementById('modalBody').innerHTML=`
+    <div class="modal-tl-track">${tlHtml||`<div style="flex:1;background:var(--bg2);border-radius:4px"></div>`}</div>
+    <div class="tl-times" style="margin-bottom:0"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+    <div class="modal-stats">
+      <div class="modal-stat"><div class="modal-stat-val" style="color:var(--red)">${off}</div><div class="modal-stat-lbl">Год. відкл.</div></div>
+      <div class="modal-stat"><div class="modal-stat-val" style="color:var(--green)">${on}</div><div class="modal-stat-lbl">Год. світло</div></div>
+      <div class="modal-stat"><div class="modal-stat-val">${hours?Math.round(off/24*100):0}%</div><div class="modal-stat-lbl">% відкл.</div></div>
+    </div>
+    <div>${evHtml||'<div class="empty"><div class="empty-ico">📭</div>Немає даних</div>'}</div>
+    <button class="modal-btn" onclick="setQ('${q}');closeModal();toast('⚡ ${qLabelFull(q)} обрана')">⚡ Зробити основною</button>`;
+  document.getElementById('modalBg').classList.add('open');
+}
+function closeModal(){ document.getElementById('modalBg').classList.remove('open'); }
+
+function renderHistory(){
+  const cpu=S.regionCpu; const reg=getRegionData(cpu);
+  const el=document.getElementById('histScroll');
+  if(!reg){el.innerHTML='<div class="empty"><div class="empty-ico">📡</div>Завантажте дані</div>';return;}
+  const queues=getEffectiveQueues(cpu); let html='';
+  const allDates=new Set();
+  queues.forEach(q=>{
+    if(/^\d$/.test(q)){
+      const subs=Object.keys(reg.schedule||{}).filter(rq=>rq.startsWith(q+'.'));
+      subs.forEach(rq=>Object.keys(reg.schedule[rq]||{}).forEach(d=>allDates.add(d)));
+    } else Object.keys(reg.schedule[q]||{}).forEach(d=>allDates.add(d));
+  });
+  const sorted=[...allDates].sort().reverse().slice(0,7);
+  sorted.forEach(date=>{
+    const dt=new Date(date); const WD=['Нд','Пн','Вт','Ср','Чт','Пт','Сб'];
+    const today0=todayStr(0),yest=todayStr(-1);
+    const lbl=date===today0?'Сьогодні':date===yest?'Вчора':`${WD[dt.getDay()]}, ${dt.getDate()}.${String(dt.getMonth()+1).padStart(2,'0')}`;
+    html+=`<div class="hist-day-lbl">${lbl}</div>`;
+    queues.forEach(q=>{
+      const today2=new Date(todayStr(0));
+      const target=new Date(date);
+      const dayOff=Math.round((target-today2)/86400000);
+      const slots=getSlots(cpu,q,dayOff); if(!slots) return;
+      const hours=slots48to24(slots); const off=offHrs(hours);
+      const sev=off>8?'hi':off>4?'md':'lo';
+      const segs=(hours||[]).map(v=>`<div class="h-seg ${sc(v)}"></div>`).join('');
+      html+=`<div class="hist-row" onclick="S.queue='${q}';setDay(0,document.querySelector('.d-tab'));renderAll()">
+        <div class="hist-q">${qLabel(q)}</div>
+        <div class="hist-bar">${segs}</div>
+        <div class="hist-meta"><div class="hist-hrs">${off}г</div><div class="hist-sev ${sev}">${off>8?'Багато':off>4?'Помірно':'Мало'}</div></div>
+      </div>`;
+    });
+  });
+  el.innerHTML=html||'<div class="empty"><div class="empty-ico">📅</div>Немає архівних даних</div>';
+}
+
+function renderMap(){
+  const el=document.getElementById('mapItems');
+  if(!S.apiData){el.innerHTML='<div class="empty"><div class="empty-ico">📡</div>Завантажте дані</div>';return;}
+  el.innerHTML=S.apiData.map(reg=>{
+    const cpu=reg.cpu; const meta=REGION_META[cpu]||{name:reg.name_ua||cpu,flag:'🇺🇦'};
+    const qs=getEffectiveQueues(cpu);
+    const allOff=qs.filter(q=>curSlotStatus(cpu,q)===2).length;
+    const pct=qs.length?Math.round(allOff/qs.length*100):0;
+    const col=pct>60?'var(--red)':pct>30?'var(--yellow)':'var(--green)';
+    const sel=cpu===S.regionCpu;
+    return `<div class="region-item${sel?' sel':''}" onclick="selReg('${cpu}')">
+      <div class="ri-flag">${meta.flag}</div>
+      <div class="ri-info">
+        <div class="ri-name">${meta.name}${sel?' ✓':''}${reg.emergency?' 🚨':''}</div>
+        <div class="ri-sub">${allOff}/${qs.length} ${qs.length<=6?'черг':'груп'} без світла</div>
+      </div>
+      <div class="mi-pct">
+        <div class="ri-pct" style="color:${col}">${pct}%</div>
+        <div class="ri-pct-lbl">зараз OFF</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── DRAWER ─────────────────────────────────────────────────
+function openDrawer(){
+  document.getElementById('drOv').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('regSearch').value='';
+  renderRegList(S.apiData||[]);
+  setTimeout(()=>document.getElementById('regSearch').focus(),300);
+}
+function closeDrawer(){
+  document.getElementById('drOv').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+}
+function filterRegs(q){ renderRegList((S.apiData||[]).filter(r=>{const m=REGION_META[r.cpu]||{name:r.name_ua||r.cpu};return m.name.toLowerCase().includes(q.toLowerCase());})); }
+function renderRegList(list){
+  const el=document.getElementById('regList');
+  if(!list.length){el.innerHTML='<div class="empty"><div class="empty-ico">😅</div>Не знайдено</div>';return;}
+  el.innerHTML=list.map(reg=>{
+    const cpu=reg.cpu; const meta=REGION_META[cpu]||{name:reg.name_ua||cpu,flag:'🇺🇦'};
+    const qs=getEffectiveQueues(cpu);
+    const offCnt=qs.filter(q=>curSlotStatus(cpu,q)===2).length;
+    const col=offCnt>qs.length/2?'var(--red-text)':offCnt>0?'var(--yellow-text)':'var(--green-text)';
+    return `<div class="drw-item${cpu===S.regionCpu?' sel':''}" onclick="selReg('${cpu}')">
+      <div class="drw-flag">${meta.flag}</div>
+      <div class="drw-name">${meta.name}${reg.emergency?' 🚨':''}</div>
+      <div class="drw-stat" style="color:${col}">${offCnt}/${qs.length}</div>
+    </div>`;
+  }).join('');
+}
+function selReg(cpu){
+  S.regionCpu=cpu;
+  const qs=getEffectiveQueues(cpu); if(qs.length) S.queue=qs[0];
+  saveS(); closeDrawer(); renderAll();
+  const meta=REGION_META[cpu]||{name:cpu};
+  toast(`📍 ${meta.name}`);
+  switchView('schedule',document.getElementById('bn-schedule'));
+}
+
+// ── VIEWS / NAV ────────────────────────────────────────────
+let curView='schedule';
+function switchView(name,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('act'));
+  document.querySelectorAll('.bn').forEach(b=>b.classList.remove('act'));
+  document.getElementById('view-'+name).classList.add('act');
+  btn.classList.add('act'); curView=name;
+  if(name==='history') renderHistory();
+  if(name==='map') renderMap();
+  document.getElementById('notifPanel').classList.remove('open');
+}
+function setQ(q){ S.queue=q; saveS(); renderAll(); }
+function setDay(d,btn){
+  S.day=d;
+  document.querySelectorAll('.d-tab').forEach(t=>t.classList.remove('act'));
+  if(btn) btn.classList.add('act');
+  else document.querySelectorAll('.d-tab')[d].classList.add('act');
+  renderAll();
+}
+function setFlt(f,btn){
+  S.filter=f;
+  document.querySelectorAll('.flt-pill').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act'); renderQGrid();
+}
+
+// ── THEME ──────────────────────────────────────────────────
+function setTheme(t){
+  S.theme=t; saveS();
+  document.documentElement.setAttribute('data-theme',t);
+  document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';
+  document.getElementById('metaTheme').setAttribute('content',t==='dark'?'#0e0e12':'#ffffff');
+  const sel=document.getElementById('themeSel'); if(sel) sel.value=t;
+}
+function cycleTheme(){ setTheme(S.theme==='dark'?'light':'dark'); }
+
+// ── PUSH NOTIFICATIONS ─────────────────────────────────────
+async function togglePush(){
+  const tog=document.getElementById('pushTog');
+  if(!S.pushEnabled){
+    if(window.AndroidBridge?.requestNotifPermission){ window.AndroidBridge.requestNotifPermission(); S.pushEnabled=true; tog.classList.add('on'); saveS(); toast('🔔 Сповіщення увімкнено'); return; }
+    if(!('Notification' in window)){ toast('🔕 Не підтримується'); return; }
+    if(Notification.permission==='denied'){ toast('🔕 Заблоковано в налаштуваннях'); return; }
+    let p=Notification.permission;
+    if(p==='default') p=await Notification.requestPermission();
+    if(p!=='granted'){ toast('🔕 Дозвіл не надано'); return; }
+    S.pushEnabled=true; tog.classList.add('on'); saveS(); toast('🔔 Сповіщення увімкнено'); scheduleLocalNotif();
+  } else {
+    S.pushEnabled=false; tog.classList.remove('on'); saveS(); toast('🔕 Сповіщення вимкнено');
+  }
+}
+function pushNotif(body,type){
+  const h=new Date().getHours();
+  if(S.quietMode&&(h>=22||h<7)) return;
+  if(window.AndroidBridge?.showNotification){ try{window.AndroidBridge.showNotification('⚡ Світло UA',body,type);return;}catch(e){} }
+  if(S.pushEnabled&&typeof Notification!=='undefined'&&Notification.permission==='granted'){
+    try{ new Notification('⚡ Світло UA',{body,icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%23111"/><text y=".85em" font-size="44" x="10">⚡</text></svg>',tag:'svitlo',vibrate:[200,100,200],requireInteraction:type==='r'}); }catch(e){}
+  }
+}
+let _notifTimers=[];
+function scheduleLocalNotif(){
+  _notifTimers.forEach(t=>clearTimeout(t)); _notifTimers=[];
+  if(!S.pushEnabled) return;
+  const cpu=S.regionCpu,q=S.queue,now=new Date();
+  const ne=nextEvent(cpu,q,0); if(!ne) return;
+  const [hh,mm]=ne.time.split(':').map(Number);
+  const warn=parseInt(S.warnMin||15);
+  const fireWarn=new Date(); fireWarn.setHours(hh,mm-warn,0,0);
+  const dw=fireWarn-now;
+  if(dw>0&&dw<8*3600000) _notifTimers.push(setTimeout(()=>{
+    const msg=`${ne.type===2?'🔴 Відключення':'🟢 Увімкнення'} о ${ne.time} (через ${warn} хв)`;
+    pushNotif(msg,ne.type===2?'r':'g'); addNotif({type:ne.type===2?'r':'g',text:`${qLabelFull(q)} · ${msg}`});
+  },dw));
+  const fireAt=new Date(); fireAt.setHours(hh,mm,0,0);
+  const da=fireAt-now;
+  if(da>0&&da<8*3600000) _notifTimers.push(setTimeout(()=>{
+    const msg=`${ne.type===2?'❌ ВІДКЛЮЧЕННЯ':'✅ Світло увімкнено'} — ${qLabelFull(q)}`;
+    pushNotif(msg,ne.type===2?'r':'g'); addNotif({type:ne.type===2?'r':'g',text:msg});
+  },da));
+}
+function addNotif({type,text}){
+  const t=new Date().toTimeString().slice(0,5);
+  S.notifications.unshift({type,text,time:t});
+  if(S.notifications.length>60) S.notifications.pop();
+  saveS(); renderNotifs();
+}
+function renderNotifs(){
+  const body=document.getElementById('notifBody');
+  const dot=document.getElementById('notifDot');
+  if(!S.notifications.length){ body.innerHTML='<div class="empty"><div class="empty-ico">🔕</div>Поки порожньо</div>'; dot.classList.remove('show'); return; }
+  body.innerHTML=S.notifications.map(n=>`<div class="np-entry"><div class="np-dot ${n.type}"></div><div><div>${n.text}</div><div class="np-time">${n.time}</div></div></div>`).join('');
+  dot.classList.add('show');
+}
+function clearNotifs(){ S.notifications=[]; saveS(); renderNotifs(); }
+function toggleNotifPanel(){ document.getElementById('notifPanel').classList.toggle('open'); }
+
+// ── TOAST ──────────────────────────────────────────────────
+function toast(msg){
+  const el=document.createElement('div'); el.className='toast';
+  el.textContent=msg; document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(),220); },2600);
+}
+
+// ── SETTINGS ───────────────────────────────────────────────
+function toggleQuiet(){
+  S.quietMode=!S.quietMode; saveS();
+  document.getElementById('quietTog').classList.toggle('on', S.quietMode);
+}
+function updateSettingsUI(){
+  const meta=REGION_META[S.regionCpu]||{name:S.regionCpu};
+  const sr=document.getElementById('settReg'); if(sr) sr.textContent=meta.name;
+  const sq=document.getElementById('settQ'); if(sq) sq.textContent=qLabelFull(S.queue);
+  const tog=document.getElementById('pushTog'); if(tog) tog.classList.toggle('on',S.pushEnabled);
+  const qt=document.getElementById('quietTog'); if(qt) qt.classList.toggle('on', S.quietMode);
+  const wm=document.getElementById('warnMin'); if(wm) wm.value=S.warnMin||15;
+}
+function saveSettings(){ S.warnMin=parseInt(document.getElementById('warnMin').value)||15; saveS(); }
+function checkPermBanner(){
+  if(!('Notification' in window)&&!window.AndroidBridge) return;
+  const perm=typeof Notification!=='undefined'?Notification.permission:'default';
+  if(perm==='default'&&!S.pushEnabled)
+    document.getElementById('permBanner').innerHTML=`<div class="perm-prompt">🔔 Отримуй сповіщення при відключеннях <button class="perm-btn" onclick="togglePush()">Увімкнути</button></div>`;
+}
+
+// ── TICK ───────────────────────────────────────────────────
+function startTick(){
+  setInterval(()=>{
+    if(S.day===0){
+      const ne=nextEvent(S.regionCpu,S.queue,0);
+      if(ne){ const [hh,mm]=ne.time.split(':').map(Number); const now=new Date(); const diff=hh*60+mm-(now.getHours()*60+now.getMinutes()); const el=document.getElementById('hnCdVal'); if(el&&diff>0) el.textContent=diff>=60?`${Math.floor(diff/60)}г ${diff%60}хв`:`${diff} хв`; }
+    }
+    const now=new Date();
+    if(now.getMinutes()===0||now.getMinutes()===30){ renderAll(); scheduleLocalNotif(); }
+  },30000);
+}
+
+window.addEventListener('online',()=>{ setOffline(false); fetchData(true); });
+window.addEventListener('offline',()=>setOffline(true));
+
+// ── SPLASH ─────────────────────────────────────────────────
+async function runSplash(){
+  const bar=document.getElementById('splBar');
+  const status=document.getElementById('splStatus');
+  bar.style.width='20%'; status.textContent='Перевірка мережі...';
+  await new Promise(r=>setTimeout(r,250));
+  bar.style.width='50%'; status.textContent=navigator.onLine?'Завантаження даних...':'Офлайн — кеш...';
+  await new Promise(r=>setTimeout(r,200));
+  if(S.apiData){ bar.style.width='100%'; status.textContent=`Готово · ${S.apiData.length} регіонів`; }
+  else { bar.style.width='70%'; status.textContent='Отримання даних...'; }
+}
+
+// ── INIT ───────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded',async()=>{
+  loadS(); setTheme(S.theme);
+  updateSettingsUI();
+  renderNotifs();
+  runSplash();
+  await fetchData(true);
+  // Update splash
+  const splBar=document.getElementById('splBar');
+  const splStatus=document.getElementById('splStatus');
+  if(S.apiData){ splBar.style.width='100%'; splStatus.textContent=`Готово · ${S.apiData.length} регіонів`; }
+  else { splStatus.textContent='Помилка завантаження'; }
+  await new Promise(r=>setTimeout(r,350));
+  const splash=document.getElementById('splash');
+  splash.classList.add('out');
+  setTimeout(()=>{ splash.style.display='none'; },450);
+  checkPermBanner(); restartTimer(); startTick();
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeModal();document.getElementById('notifPanel').classList.remove('open');} });
+  document.addEventListener('click',e=>{
+    const np=document.getElementById('notifPanel');
+    if(np.classList.contains('open')&&!np.contains(e.target)&&!e.target.closest('[onclick="toggleNotifPanel()"]')) np.classList.remove('open');
+  });
+});
+
+// ══════════════════════════════════════════════════════════
+// OTA UPDATE SYSTEM
+// Checks https://svitlo-ua.github.io/releases/latest.json
+// (or any static host — can be changed to your server)
+// latest.json format:
+// { "version": "5.1", "url": "https://..../svitlo-ua.apk",
+//   "notes": "Виправлення помилок", "minVersion": "5.0" }
+// ══════════════════════════════════════════════════════════
+
+const APP_VERSION = '5.0';
+const OTA_CHECK_URL = 'https://adweyn.github.io/svitlo/latest.json';
+// Alternative: 'https://raw.githubusercontent.com/YOUR/repo/main/latest.json'
+
+let otaApkUrl = null;
+let otaDownloadedPath = null;
+
+async function checkForUpdates(silent = true) {
+  try {
+    const res = await fetch(OTA_CHECK_URL + '?t=' + Date.now(), {
+      cache: 'no-store', signal: AbortSignal.timeout(8000)
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    
+    const serverVer = String(data.version || '');
+    const currentVer = APP_VERSION;
+    
+    // Simple version compare: "5.1" > "5.0"
+    if (serverVer && serverVer !== currentVer && isNewerVersion(serverVer, currentVer)) {
+      otaApkUrl = data.url;
+      document.getElementById('otaVersion').textContent = 'v' + serverVer;
+      document.getElementById('otaSub').textContent = data.notes || 'Нова версія готова до завантаження';
+      document.getElementById('otaBanner').classList.add('show');
+      if (!silent) toast('🆕 Оновлення v' + serverVer + ' доступно!');
+    }
+  } catch(e) {
+    // Silent fail — OTA check is non-critical
+  }
+}
+
+function isNewerVersion(remote, current) {
+  const r = remote.split('.').map(Number);
+  const c = current.split('.').map(Number);
+  for (let i = 0; i < Math.max(r.length, c.length); i++) {
+    const rv = r[i] || 0, cv = c[i] || 0;
+    if (rv > cv) return true;
+    if (rv < cv) return false;
+  }
+  return false;
+}
+
+function startOtaDownload() {
+  if (!otaApkUrl) return;
+  document.getElementById('otaBanner').classList.remove('show');
+  document.getElementById('otaProgress').classList.add('show');
+  
+  // Try Android bridge download first
+  if (window.AndroidBridge?.downloadApk) {
+    window.AndroidBridge.downloadApk(otaApkUrl);
+    return;
+  }
+  
+  // Fallback: JS download with progress simulation
+  downloadApkJS(otaApkUrl);
+}
+
+async function downloadApkJS(url) {
+  const fill = document.getElementById('otaFill');
+  const pct = document.getElementById('otaPct');
+  const title = document.getElementById('otaProgressTitle');
+  const sub = document.getElementById('otaProgressSub');
+  
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    
+    const total = parseInt(res.headers.get('Content-Length') || '0');
+    const reader = res.body.getReader();
+    const chunks = [];
+    let received = 0;
+    
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      received += value.length;
+      const p = total > 0 ? Math.round(received / total * 100) : 0;
+      fill.style.width = p + '%';
+      pct.textContent = p + '%';
+      sub.textContent = formatBytes(received) + (total > 0 ? ' / ' + formatBytes(total) : '');
+    }
+    
+    // Create blob and trigger install
+    const blob = new Blob(chunks, { type: 'application/vnd.android.package-archive' });
+    const blobUrl = URL.createObjectURL(blob);
+    otaDownloadedPath = blobUrl;
+    
+    fill.style.width = '100%';
+    pct.textContent = '100%';
+    title.textContent = 'Завантажено!';
+    sub.textContent = 'Натисніть "Встановити" для оновлення';
+    document.getElementById('otaProgressIcon').textContent = '✅';
+    document.getElementById('otaInstallBtn').style.display = 'block';
+    
+  } catch(e) {
+    title.textContent = 'Помилка завантаження';
+    sub.textContent = e.message;
+    document.getElementById('otaProgressIcon').textContent = '❌';
+    // Show retry
+    document.getElementById('otaInstallBtn').textContent = 'Спробувати знову';
+    document.getElementById('otaInstallBtn').style.display = 'block';
+    document.getElementById('otaInstallBtn').onclick = () => {
+      resetOtaUI();
+      startOtaDownload();
+    };
+  }
+}
+
+function installOta() {
+  if (window.AndroidBridge?.installApk) {
+    window.AndroidBridge.installApk(otaDownloadedPath);
+    return;
+  }
+  // Fallback: open blob URL (requires "Allow from this source" in Android settings)
+  if (otaDownloadedPath) {
+    const a = document.createElement('a');
+    a.href = otaDownloadedPath;
+    a.download = 'svitlo-ua-update.apk';
+    a.click();
+  }
+  document.getElementById('otaProgress').classList.remove('show');
+}
+
+function resetOtaUI() {
+  document.getElementById('otaFill').style.width = '0';
+  document.getElementById('otaPct').textContent = '0%';
+  document.getElementById('otaProgressTitle').textContent = 'Завантаження оновлення';
+  document.getElementById('otaProgressSub').textContent = 'Будь ласка, зачекайте...';
+  document.getElementById('otaProgressIcon').textContent = '⬇️';
+  document.getElementById('otaInstallBtn').style.display = 'none';
+}
+
+function formatBytes(b) {
+  if (b < 1024) return b + ' Б';
+  if (b < 1024*1024) return (b/1024).toFixed(1) + ' КБ';
+  return (b/1024/1024).toFixed(1) + ' МБ';
+}
+
+// Check on startup (after 3s delay) and every 6 hours
+setTimeout(() => checkForUpdates(true), 3000);
+setInterval(() => checkForUpdates(true), 6 * 3600 * 1000);
+
+</script>
+</body>
+</html>
 
